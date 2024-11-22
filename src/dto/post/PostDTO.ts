@@ -16,6 +16,7 @@ export interface UpdatePostDTO {
 }
 
 export interface ResponsePostDTO {
+    id: string;
     title: string;
     content: string;
     imageUrl: string;

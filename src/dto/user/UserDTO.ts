@@ -12,6 +12,7 @@ export interface UpdateUserDTO {
 }
 
 export interface ResponseUserDTO {
+    id: string;
     name?: string;
     email?: string;
     imageUrl?: string;

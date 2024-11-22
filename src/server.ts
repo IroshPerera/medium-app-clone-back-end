@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/db';
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
+import commentsRoutes from './routes/commentRoutes';
 import errorHandler from './middlewares/errorHandler';
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/posts', postRoutes);
+app.use('/api/v1/comments', commentsRoutes);
 
 //Error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

@@ -1,5 +1,4 @@
 import { CreatePostDTO, ResponsePostDTO, UpdatePostDTO } from "dto/post/PostDTO";
-import { ResponseUserDTO } from "dto/user/UserDTO";
 import Post from "../models/Post";
 import User from "../models/User";
 import { CustomError } from "../utils/CustomError";
@@ -60,10 +59,12 @@ export const findAll = async () => {
           
 
             responsePosts.push({
+                id: post._id as string,
                 title: post.title,
                 content: post.content,
                 imageUrl: post.imageUrl,
                 user: {  // Correct assignment here
+                    id: user?._id as string,
                     name: user?.name,
                     email: user?.email,
                     imageUrl: user?.imageUrl,

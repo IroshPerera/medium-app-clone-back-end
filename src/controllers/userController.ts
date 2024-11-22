@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { signUp, update, findById, findAll } from '../services/userService';
+import { signUp, update, findById, findAll,follow ,unfollow} from '../services/userService';
 
 export const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,6 +36,30 @@ export const findAllUsers = async (req: Request, res: Response, next: NextFuncti
     try {
         const users = await findAll();
         res.status(200).json({ success: true, data: users });
+    } catch (error: any) {
+        next(error); 
+    }
+};
+
+//follow user
+export const followUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.params.id;
+        const followerId = req.body.followerId;
+        const user = await follow(userId, followerId);
+        res.status(200).json({ success: true, data: user });
+    } catch (error: any) {
+        next(error); 
+    }
+};
+
+//unfollow user
+export const unfollowUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.params.id;
+        const unFollowerId = req.body.unFollowerId;
+        const user = await unfollow(userId, unFollowerId);
+        res.status(200).json({ success: true, data: user });
     } catch (error: any) {
         next(error); 
     }

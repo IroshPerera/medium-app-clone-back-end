@@ -28,6 +28,32 @@ export const create = async (commentDTO: CreateCommentDTO)=> {
 
         await comment.save();
 
+
+        return ({
+            id: comment._id,
+            comment: comment.comment,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                imageUrl: user.imageUrl
+            },
+            post: {
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                imageUrl: post.imageUrl,
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    imageUrl: user.imageUrl
+                },
+                createdAt: post.createdAt
+            },
+            createdAt: comment.createdAt
+        });
+
         return comment;
     } catch (error: any) {
         throw new CustomError(error.message, error.statusCode || 500);

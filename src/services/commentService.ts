@@ -59,3 +59,43 @@ export const create = async (commentDTO: CreateCommentDTO)=> {
         throw new CustomError(error.message, error.statusCode || 500);
     }
 }
+
+// find comment by post id
+export const findByPostId = async (postId: string) => {
+    try {
+
+        // find the post by id
+        const post = await Post.findById(postId);
+        if(!post) {
+            throw new CustomError('Sorry, Unable to find requested post', 404);
+        }
+
+        const comments = await Comment.find({ post: postId }).populate('user').populate('post');
+        return comments.map(comment => ({
+            id: comment._id,
+            comment: comment.comment,
+            user: {
+                id: comment.user._id,
+                name: comment.user.name,
+                email: comment.user.email,
+                imageUrl: comment.user.imageUrl
+            },
+            post: {
+                id: comment.post._id,
+                title: comment.post.title,
+                content: comment.post.content,
+                imageUrl: comment.post.imageUrl,
+                user: {
+                    id: comment.user._id,
+                    name: comment.user.name,
+                    email: comment.user.email,
+                    imageUrl: comment.user.imageUrl
+                },
+                createdAt: comment.post.createdAt
+            },
+            createdAt: comment.createdAt
+        }));
+    } catch (error: any) {
+        throw new CustomError(error.message, error.statusCode || 500);
+    }
+}

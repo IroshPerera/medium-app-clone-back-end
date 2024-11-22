@@ -63,3 +63,58 @@ export const findAll = async () => {
         throw new CustomError(error.message, error.statusCode);
     }
 }
+
+//follow function
+export const follow = async (userId: string, followerId: string) => {
+    try {
+        const user = await User.findById(userId);
+        const follower = await User.findById(followerId);
+
+        if (!user || !follower) {
+            throw new CustomError('Sorry! Unable to find requested user', 404);
+        }
+
+        //check if user is already following the follower
+        const isFollowing = user.followers.find((follower) => follower.toString() === followerId);
+        
+        if (isFollowing) {
+            throw new CustomError('Sorry! You are already following this user', 409);
+        }
+        
+        user.followers.push(follower);
+        follower.following.push(user);
+
+        await user.save();
+        await follower.save();
+
+        return user;
+    }
+    catch (error:any) {
+        throw new CustomError(error.message, error.statusCode);
+    }
+}
+
+//unfollow function
+export const unfollow = async (userId: string, unFollowerId: string) => {
+    try {
+        const user = await User.findById(userId);
+        const unFollower = await User.findById(unFollowerId);
+
+        if (!user || !unFollower) {
+            throw new CustomError('Sorry! Unable to find requested user', 404);
+        }
+
+
+
+        user.followers = user.followers.filter((follower) => follower.toString() !== unFollowerId);
+        unFollower.following = unFollower.following.filter((following) => following.toString() !== userId);
+
+        await user.save();
+        await unFollower.save();
+
+        return user;
+    }
+    catch (error:any) {
+        throw new CustomError(error.message, error.statusCode);
+    }
+}

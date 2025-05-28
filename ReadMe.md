@@ -11,7 +11,7 @@ Create a `.env` file in the root directory of your project and add the following
 PORT=5000
 
 # MongoDB Configuration
-MONGO_URI=mongodb+srv://iroshlashan31:8XqEYQDliGg2N6Z6@medium-app-clone-db.do6pg.mongodb.net/?retryWrites=true&w=majority&appName=medium-app-clone-db
+MONGO_URI=
 # Environment
 NODE_ENV=development
 ```
